@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LINE 圖文選單上傳</title>
+  <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+  <div class="document" id="app">
+    <div class="container">
+      <h1 class="title">圖文選單建立</h1>
+      <div style="margin-top: 10px;">
+        <button type="button" @click="buildRichmenu">建置 richmenu</button>
+        <p>richMenuId: {{ richMenuId }}</p>
+      </div>
+      <!-- <button type="button">上傳圖文選單圖片</button>
+      <button type="button">作為預設的圖文選單</button>
+      創造圖文選單的關聯 -->
+    </div>
+
+  </div>
+  <script src="vendor/js/axios.min.js"></script>
+  <script src="vendor/js/vue2.js"></script>
+  <script>
+
+    new Vue({
+      el: "#app",
+      data() {
+        return {
+          test: 1,    
+          richMenuId: ''
+        }
+      },
+      methods: {
+        buildRichmenu() {
+          axios({
+            method: 'post',
+            url: 'https://api.line.me/v2/bot/richmenu',
+            headers: {
+              'Authorization': 'Bearer',
+              'Content-Type': 'application/json',
+            },
+            data: {
+              "size": { 
+                "width": 2500,
+                "height": 843 
+              },
+              "selected": false,
+              "name": "richmenu-a",
+              "chatBarText": "選單1",
+              "areas": [
+                {
+                  "bounds": { 
+                    "x": 0, 
+                    "y": 0, 
+                    "width": 833,
+                    "height": 843
+                  },
+                  "action": { 
+                    "type": "message", 
+                    "label": "文字", 
+                    "text": "Hello, iBot!"
+                  }
+                },
+                {
+                  "bounds": {
+                    "x": 833,
+                    "y": 0,
+                    "width": 833,
+                    "height": 843
+                  },
+                  "action": {
+                    "type": "uri",
+                    "label": "網址",
+                    "uri": "https://developers.line.biz/"
+                  }
+                },
+                {
+                  "bounds": {
+                    "x": 1666,
+                    "y": 0,
+                    "width": 833,
+                    "height": 843
+                  },
+                  "action": {
+                    "type": "richmenuswitch",
+                    "richMenuAliasId": "richmenu-alias-b",
+                    "data": "richmenu-changed-to-b"
+                  }
+                }
+              ]
+            }
+          })
+          .then((response) => {
+            this.richMenuId = response.richMenuId;
+            // console.log(response)
+          })
+          .catch( (error) => console.log(error));    
+        }
+      }
+    });
+
+
+  </script>
+</body>
+</html>

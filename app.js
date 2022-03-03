@@ -45,7 +45,9 @@ app.post('/callback', line.middleware(lineConfig), (req, res) => {
     // 是 postback 時
     else if(event.type === 'postback') handlePostback(event);
 
-    else if(event.type === 'postback') handlePostback(event);
+    else if(event.type === 'things') handleThings(event);
+
+    else if(event.type === 'accountLink') handleAccountLink(event);
     
   }
   
@@ -81,6 +83,14 @@ function handleMessage() {
 function handlePostback() {
   // 收到 postback 時要做的事
   console.log('postback');
+}
+
+function handleThings() {
+  console.log('Device');
+}
+
+function handleAccountLink() {
+  console.log('帳戶連接?');
 }
 
 
